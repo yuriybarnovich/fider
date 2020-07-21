@@ -9,6 +9,7 @@ import (
 	"github.com/getfider/fider/app/pkg/bus"
 	"github.com/getfider/fider/app/pkg/web"
 	"github.com/getfider/fider/app/tasks"
+	"github.com/gosimple/slug"
 )
 
 // SearchPosts return existing posts based on search criteria
@@ -52,6 +53,15 @@ func CreatePost() web.HandlerFunc {
 		setAttachments := &cmd.SetAttachments{Post: newPost.Result, Attachments: input.Model.Attachments}
 		addVote := &cmd.AddVote{Post: newPost.Result, User: c.User()}
 		if err = bus.Dispatch(c, setAttachments, addVote); err != nil {
+			return c.Failure(err)
+		}
+
+		addDeviceOSTag := &cmd.AssignTag{Tag: addOrGetTag(input.Model.DeviceOS, "FF0000", c), Post: newPost.Result}
+		addOSVersionTag := &cmd.AssignTag{Tag: addOrGetTag(input.Model.OSVersion, "00FF00", c), Post: newPost.Result}
+		addDeviceModelTag := &cmd.AssignTag{Tag: addOrGetTag(input.Model.DeviceModel, "00FFFF", c), Post: newPost.Result}
+		addAppVersionTag := &cmd.AssignTag{Tag: addOrGetTag(input.Model.AppVersion, "00FFFF", c), Post: newPost.Result}
+
+		if err = bus.Dispatch(c, addDeviceOSTag, addDeviceModelTag, addOSVersionTag, addAppVersionTag); err != nil {
 			return c.Failure(err)
 		}
 
@@ -383,4 +393,17 @@ func addOrRemove(c *web.Context, getCommand func(post *models.Post, user *models
 	}
 
 	return c.Ok(web.Map{})
+}
+
+func addOrGetTag(tagName string, color string, c *web.Context) *models.Tag {
+	newSlug := slug.Make(tagName)
+	getSlug := &query.GetTagBySlug{Slug: newSlug}
+	error := bus.Dispatch(c, getSlug)
+	if error != nil {
+		addNewTag := &cmd.AddNewTag{Name: tagName, Color: color, IsPublic: true}
+		bus.MustDispatch(c, addNewTag)
+		return addNewTag.Result
+	} else {
+		return getSlug.Result
+	}
 }

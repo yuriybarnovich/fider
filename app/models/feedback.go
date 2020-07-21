@@ -47,6 +47,10 @@ type NewPost struct {
 	Title       string         `json:"title"`
 	Description string         `json:"description"`
 	Attachments []*ImageUpload `json:"attachments"`
+	DeviceOS    string         `json:"deviceOS"`
+	DeviceModel string         `json:"deviceModel"`
+	OSVersion   string         `json:"osVersion"`
+	AppVersion  string         `json:"appVersion"`
 }
 
 // UpdatePost represents a request to edit an existing post
