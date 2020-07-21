@@ -46,6 +46,7 @@ func (i *Post) CanBeVoted() bool {
 type NewPost struct {
 	Title       string         `json:"title"`
 	Description string         `json:"description"`
+	ReviewType  string         `json:"reviewType"`
 	Attachments []*ImageUpload `json:"attachments"`
 	DeviceOS    string         `json:"deviceOS"`
 	DeviceModel string         `json:"deviceModel"`
