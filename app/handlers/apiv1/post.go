@@ -63,7 +63,7 @@ func CreatePost() web.HandlerFunc {
 		addReviewTypeTag := &cmd.AssignTag{Tag: addOrGetTag(input.Model.ReviewType, "000FFF", c), Post: newPost.Result}
 		addRatingTypeTag := &cmd.AssignTag{Tag: addOrGetTag(input.Model.Rating, "ABCDEF", c), Post: newPost.Result}
 
-		if err = bus.Dispatch(c, addDeviceOSTag, addDeviceModelTag, addOSVersionTag, addAppVersionTag, addReviewTypeTag); err != nil {
+		if err = bus.Dispatch(c, addDeviceOSTag, addDeviceModelTag, addOSVersionTag, addAppVersionTag, addReviewTypeTag, addRatingTypeTag); err != nil {
 			return c.Failure(err)
 		}
 
