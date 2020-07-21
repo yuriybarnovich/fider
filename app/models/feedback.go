@@ -52,6 +52,7 @@ type NewPost struct {
 	DeviceModel string         `json:"deviceModel"`
 	OSVersion   string         `json:"osVersion"`
 	AppVersion  string         `json:"appVersion"`
+	Rating      string         `json:"rating"`
 }
 
 // UpdatePost represents a request to edit an existing post
