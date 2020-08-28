@@ -1,8 +1,8 @@
 create table if not exists tags (
      id             serial primary key,
      tenant_id      int not null,
-     name           varchar(30) not null,
-     slug           varchar(30) not null,
+     name           varchar(1000) not null,
+     slug           varchar(1000) not null,
      color          varchar(6) not null,
      is_public      boolean not null,
      created_on     timestamptz not null,
