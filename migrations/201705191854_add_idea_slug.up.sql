@@ -1,4 +1,4 @@
-ALTER TABLE ideas ADD slug varchar(100);
+ALTER TABLE ideas ADD slug varchar(1100);
 
 UPDATE ideas SET slug = '';
 
