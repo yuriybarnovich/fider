@@ -48,7 +48,7 @@ func (input *CreateEditTag) Validate(ctx context.Context, user *models.User) *va
 
 	if input.Model.Name == "" {
 		result.AddFieldFailure("name", "Name is required.")
-	} else if len(input.Model.Name) > 30 {
+	} else if len(input.Model.Name) > 1000 {
 		result.AddFieldFailure("name", "Name must have less than 30 characters.")
 	} else {
 		getDuplicateSlug := &query.GetTagBySlug{Slug: slug.Make(input.Model.Name)}

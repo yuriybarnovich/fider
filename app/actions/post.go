@@ -38,7 +38,7 @@ func (input *CreateNewPost) Validate(ctx context.Context, user *models.User) *va
 		result.AddFieldFailure("title", "Title is required.")
 	} else if len(input.Model.Title) < 10 {
 		result.AddFieldFailure("title", "Title needs to be more descriptive.")
-	} else if len(input.Model.Title) > 100 {
+	} else if len(input.Model.Title) > 1000 {
 		result.AddFieldFailure("title", "Title must have less than 100 characters.")
 	} else {
 		err := bus.Dispatch(ctx, &query.GetPostBySlug{Slug: slug.Make(input.Model.Title)})
@@ -89,7 +89,7 @@ func (input *UpdatePost) Validate(ctx context.Context, user *models.User) *valid
 		result.AddFieldFailure("title", "Title needs to be more descriptive.")
 	}
 
-	if len(input.Model.Title) > 100 {
+	if len(input.Model.Title) > 1000 {
 		result.AddFieldFailure("title", "Title must have less than 100 characters.")
 	}
 
